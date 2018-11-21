@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="top">
+        <h2>钱包管理 - 查看用户钱包</h2>
+    </div>
+
+    <div id="app">
+        <div class="mysql_info">
+            <table cellspacing="0">
+                <tr>
+                    <th>用户ID</th>
+                    <th>余额</th>
+                    <th width="200">操作</th>
+                </tr>
+                <tr v-for="(wallet , index) in data.slice((page-1)*num,page*num)">
+                    <td>{{wallet.userId}}</td>
+                    <td>{{wallet.money}}</td>
+                    <td>
+                        <a v-if="rechargeIndex != index" href="javascript:;" @click="rechargeIndex = index">充值</a>
+                        <span v-if="rechargeIndex == index">
+                            <input type="text"  v-model="money" maxlength="4" size="5" onkeyup="value=value.replace(/[^\d]/g,'')">
+                            <a href="javascript:;" @click="recharge(index,wallet.userId)">充值</a>
+                        </span>
+
+                    </td>
+                </tr>
+            </table>
+
+            <div align="center">页次:{{page}}/{{total}} 记录:{{data.length}}</div>
+
+            <ul class="foot">
+                <li><a href="javascript:;" @click="page = 1">首页</a></li>
+                <li><a href="javascript:;" @click="page = page==1?1:page-1">上一页</a></li>
+                <li><a href="javascript:;" @click="page = page==total ? total:page+1">下一页</a></li>
+                <li><a href="javascript:;" @click="page = total">末页</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+    <script src="./js/lib/vue.js"></script>
+    <script src="./js/lib/axios.min.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/show_wallet.js"></script>
+</body>
+
+</html>

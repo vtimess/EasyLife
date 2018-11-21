@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="top">
+        <h2>用户管理 - 查看所有用户</h2>
+    </div>
+
+    <div id="app">
+        <div v-show="!dialogShow" class="mysql_info">
+            <table cellspacing="0">
+                <tr>
+                    <th>ID</th>
+                    <th>手机号</th>
+                    <th>姓名</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="(user , index) in data.slice((page-1)*num,page*num)">
+                    <td>{{user.userId}}</td>
+                    <td>{{user.phoneNumber}}</td>
+                    <td>{{user.name}}</td>
+                    <td>
+                        <a href="javascript:;" @click="dialogShow=true,curData = data[index + (page-1)*num]">查看</a>
+                        <a href="javascript:;" @click="del(index+(page-1)*num)">删除</a>
+                    </td>
+                </tr>
+            </table>
+
+            <div align="center">页次:{{page}}/{{total}} 记录:{{data.length}}</div>
+
+            <ul class="foot">
+                <li><a href="javascript:;" @click="page = 1">首页</a></li>
+                <li><a href="javascript:;" @click="page = page==1?1:page-1">上一页</a></li>
+                <li><a href="javascript:;" @click="page = page==total ? total:page+1">下一页</a></li>
+                <li><a href="javascript:;" @click="page = total">末页</a></li>
+            </ul>
+
+        </div>
+
+        <div class="info" v-if="dialogShow">
+            <div class="return">
+                <a href="javascript:;" @click="dialogShow=false">
+                    <button class="returnButton">返回</button>
+                </a>
+            </div>
+            <table>
+
+                <tr>
+                    <td>用户Id：</td>
+                    <td v-html="curData.userId"></td>
+                </tr>
+                <tr>
+                    <td>手机号码：</td>
+                    <td v-html="curData.phoneNumber"></td>
+                </tr>
+                <tr>
+                    <td>姓名：</td>
+                    <td v-html="curData.name"></td>
+                </tr>
+                <tr v-if="curData.headImage!=null && curData.headImage!=''">
+                    <td>头像：</td>
+                    <td><img :src="'http://localhost:8080/' + curData.headImage" height="50" width="50" style="border-radius:50%" /></td>
+                </tr>
+                <tr>
+                    <td>性别</td>
+                    <td v-html="curData.sex"></td>
+                </tr>
+                <tr v-if="curData.school!=null">
+                    <td>学校</td>
+                    <td v-html="curData.school"></td>
+                </tr>
+                <tr v-if="curData.major!==null">
+                    <td>专业</td>
+                    <td v-html="curData.major"></td>
+                </tr>
+                <tr v-if="curData.number!=null">
+                    <td>学号</td>
+                    <td v-html="curData.number"></td>
+                </tr>
+                <tr v-if="curData.hometown!=null">
+                    <td>家乡</td>
+                    <td v-html="curData.hometown"></td>
+                </tr>
+                <tr v-if="curData.birthday!=null">
+                    <td>生日</td>
+                    <td v-html="curData.birthday"></td>
+                </tr>
+                <tr v-if="curData.signature!=null">
+                    <td>签名</td>
+                    <td v-html="curData.signature"></td>
+                </tr>
+                <tr v-if="curData.credit!=null">
+                    <td>信誉分</td>
+                    <td v-html="curData.credit"></td>
+                </tr>
+
+            </table>
+
+        </div>
+    </div>
+
+    <script src="./js/lib/vue.js"></script>
+    <script src="./js/lib/axios.min.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/show_user.js"></script>
+</body>
+
+</html>

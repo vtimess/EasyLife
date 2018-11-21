@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    
+<div class="top">
+    <h2>用户管理 - 手动添加用户</h2>
+</div>
+<div class="info" id="app">
+        <table>  
+            <tr>
+                <td>手机号码：</td>
+                <td>
+                    <input type="text" v-model="form.phoneNumber" name="phoneNumber" maxlength="11" onkeyup="value=value.replace(/[^\d]/g,'')">
+                </td>
+            </tr>
+            <tr>
+                <td>登陆密码：</td>
+                <td>
+                    <input type="text" name="password" v-model="form.password">
+                </td>
+            </tr>
+            </tr>
+        </table>
+        <button class="submitButton" @click="submit" >提交</button>
+</div>
+
+<script src="./js/lib/vue.js"></script>
+<script src="./js/lib/axios.min.js"></script>
+<script src="./js/config.js"></script>
+<script src="./js/add_user.js"></script
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="./js/lib/jq.js"></script>
+    <script type="text/javascript" src="./js/sidebar.js"></script>
+</head>
+
+<body>
+    <header><img class="logo" src="img/logo.png">
+        <h1>EasyLife后台管理页面</h1>
+        <div class="view">View Website</div>
+    </header>
+
+    <div class="main">
+        <aside>
+            <a class="ulTitle ulTitle_active" href="javascript:;" onclick="show('show_user');">用户管理</a>
+            <ul style="display: none;">
+                <li class="active"><a href="javascript:;" onclick="show('show_user');">查看用户</a></li>
+                <li><a href="javascript:;" onclick="show('add_user');">添加用户</a></li>
+            </ul>
+
+            <a class="ulTitle" href="javascript:;" onclick="show('show_help');">任务管理</a>
+            <ul style="display: none;">
+                <li class="active"><a href="javascript:;" onclick="show('show_help');">查看任务</a></li>
+                <li><a href="javascript:;" onclick="show('add_help');">发布任务</a></li>
+            </ul>
+
+            <a class="ulTitle" href="javascript:;" onclick="show('show_wallet');">钱包管理</a>
+            <ul style="display: none;">
+                <li class="active"><a href="javascript:;" onclick="show('show_wallet');">查看钱包</a></li>
+            </ul>
+
+            <a class="ulTitle" href="javascript:;" onclick="show('send_notice');">通知</a>
+            <ul style="display: none;">
+                <li class="active"><a href="javascript:;" onclick="show('send_notice');">发布通知</a></li>
+            </ul>
+
+        </aside>
+        <div class="main_iframe">
+            <iframe width="100%" height="100%" src="./other/show_user.html" id="iframe"></iframe>
+        </div>
+    </div>
+
+</body>
+
+</html>

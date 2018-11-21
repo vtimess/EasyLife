@@ -1,0 +1,128 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    
+<div class="top">
+    <h2>任务管理 - 发布任务</h2>
+</div>
+<div class="info" id="app">
+        <table>
+            <tr>
+                <td>标题：</td>
+                <td>
+                    <input type="text" v-model="form.title">
+                </td>
+            </tr>
+             <tr>
+                <td>内容：</td>
+                <td>
+                    <textarea type="text" v-model="form.content"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>类别：</td>
+                <td>
+                   <select v-model="form.classname">
+                        <option value="系统任务">系统任务</option>
+						<option value="代拿">代拿</option>
+						<option value="技术">技术</option>
+                        <option value="个人闲置">个人闲置</option>
+						<option value="其他">其他</option>
+					</select>
+                </td>
+            </tr>
+           <tr>
+                <td>图片：</td>
+                <td>
+                    <input type="file" @change="tirggerImage($event)"/>
+                </td>
+            </tr>
+            <tr>
+                <td>佣金：</td>
+                <td>
+                    <input type="num" v-model="form.money" onkeyup="value=value.replace(/[^\d]/g,'')" size="4"/>
+                </td>
+            </tr>
+            <tr>
+                <td>限制性别</td>
+                <td>
+                    <select v-model="form.sexLimit">
+						<option value="0">不限</option>
+						<option value="1">男</option>
+                        <option value="-1">女</option>
+					</select>
+                </td>
+            </tr>
+                    
+        </table>
+        <button class="submitButton" @click="submit" >提交</button>
+</div>
+
+<script src="./js/lib/vue.js"></script>
+<script src="./js/lib/axios.min.js"></script>
+<script src="./js/config.js"></script>
+<script>
+    var formData = new FormData();
+    new Vue({
+    el: "#app",
+    data: {
+        form: {
+            title:"",
+            content:"",
+            classname:"系统任务",
+            money:"",
+            sexLimit:"",
+        },
+    },
+    methods: {
+        submit: function() {
+            formData.append("title",this.form.title);
+            formData.append("content",this.form.content);
+            formData.append("classname",this.form.classname);
+            formData.append("money",this.form.money);
+            formData.append("sexLimit",this.form.sexLimit);
+            formData.append("userId",0);
+            formData.append("credit",999);
+       
+            var _this = this;
+            axios.post(serverAddress + "admin/help",formData)
+                 .then(function(res) {
+                    var result = res.data;
+                    if(result.code==0){
+                        alert("成功")
+                        console.log(result.data);
+                    }else{
+                        alert(result.msg)
+                    }
+                     _this.reset()
+                 });
+                  formData = new FormData()
+        },
+        reset: function(){
+            this.form.title= ""
+            this.form.content=""
+            this.form.classname=""
+            this.form.money=""
+            this.form.sexLimit = "0"
+        
+            formData = new FormData()
+        },
+         tirggerImage:function($event){
+            var file = event.target.files[0]
+            formData.append("image",file)
+        }
+    }
+})
+</script
+</body>
+</html>
+
+
+
+
+

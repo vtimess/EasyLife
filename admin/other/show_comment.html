@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="top">
+        <h2>用户管理 - 查看所有用户</h2>
+    </div>
+
+    <div class="mysql_info" id="app">
+        <table cellspacing="0">
+            <tr>
+                <th>被评论的小说</th>
+                <th>评论人</th>
+                <th>内容</th>
+                <th>评论时间</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="(comment , index) in data.slice((page-1)*num,page*num)">
+                <td>{{comment.novel}}</td>
+                <td>{{comment.user}}</td>
+                <td>{{comment.content}}</td>
+                <td>{{comment.strDate}}</td>
+                  <td>
+                    <a href="javascript:;" @click="del(index+(page-1)*num)">删除</a>
+                </td>
+            </tr>
+        </table>
+
+        <div align="center">页次:{{page}}/{{total}}   记录:{{data.length}}</div>
+
+        <ul class="foot">
+            <li><a href="javascript:;" @click="page = 1">首页</a></li>
+            <li><a href="javascript:;" @click="page = page==1?1:page-1">上一页</a></li>
+            <li><a href="javascript:;" @click="page = page==total ? total:page+1">下一页</a></li>
+            <li><a href="javascript:;" @click="page = total">末页</a></li>
+        </ul>
+    </div>
+
+<script src="../js/lib/vue.js"></script>
+<script src="../js/lib/axios.min.js"></script>
+<script src="../js/config.js"></script>
+<script>
+    var formData = new FormData();
+    new Vue({
+    el: "#app",
+    data: {
+        data: [],
+        page:1,
+        num:8,
+        total:"",
+    },
+    mounted: function() {
+         this.$nextTick(function() {
+             this.getData();
+         })
+     },
+    methods: {
+        getData: function() {
+            var _this = this;
+            axios.get(serverAddress + "admin/comment")
+                 .then(function(res) {
+                    var result = res.data;
+                    if(result.code==0){
+                        _this.data=result.data
+                        _this.total = parseInt( _this.data.length / _this.num +0.9);
+                        console.log( _this.data,_this.total);
+                    }else{
+                        alert(result.msg);
+                    }
+                 })
+           
+        },
+        del:function(index){
+            console.log(index);
+            var _this = this; 
+             axios.delete(serverAddress + "admin/del/comment?commentId=" + this.data[index].commentId)
+                 .then(function(res) {
+                     var result = res.data;
+                    if(result.code==0){
+                       alert("删除成功");
+                       _this.data.splice(index,1)
+                    }else{
+                        alert(result.msg);
+                    }
+                 })
+        }
+    }
+})
+</script
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <div class="top">
+        <h2>通知管理 - 发布通知</h2>
+    </div>
+    <div class="info" id="app">
+        <table>
+            <tr>
+                <td>通知内容：</td>
+                <td>
+                    <textarea type="text" v-model="message" size="40"></textarea>
+                </td>
+            </tr>
+        </table>
+        <button class="submitButton" @click="send()">发布</button>
+    </div>
+
+    <script src="./js/lib/vue.js"></script>
+    <script src="./js/lib/axios.min.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/send_notice.js"></script>
+</body>
+
+</html>

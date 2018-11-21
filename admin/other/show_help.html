@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="top">
+        <h2>任务管理 - 查看任务</h2>
+    </div>
+    
+    <div id="app" >
+        <div v-show="!dialogShow"  class="mysql_info">
+            <ul class="category">
+                <li href="javascript:;" v-for="(category,index) in categorys" @click="categoryIndex = index;page=1">{{category}}</li>
+            </ul>
+            <table cellspacing="0">
+                <tr>
+                    <th>任务状态</th>
+                    <th>任务标题</th>
+                    <th>任务类型</th>
+                    <th>任务佣金</th>
+                    <th>发布日期</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="(help , index) in cat(data).slice((page-1)*num,page*num)">
+                    <td v-html="helpStatus(help.status)"></td>
+                    <td>{{help.title}}</td>
+                    <td>{{help.classname}}</td>
+                    <td>{{help.money}}</td>
+                    <td v-html="dataFormate(help.releaseDate)"></td>
+                    <td><a href="javascript:;" @click="dialogShow=true,curData = data[index + (page-1)*num]">查看</a>
+                        <a href="javascript:;" @click="del(index+(page-1)*num)">删除</a>
+                    </td>
+                </tr>
+            </table>
+
+            <div align="center">页次:{{page}}/{{total}}   记录:{{cat(data).length}}</div>
+
+            <ul class="foot">
+                <li><a href="javascript:;" @click="page = 1">首页</a></li>
+                <li><a href="javascript:;" @click="page = page==1?1:page-1">上一页</a></li>
+                <li><a href="javascript:;" @click="page = page==total ? total:page+1">下一页</a></li>
+                <li><a href="javascript:;" @click="page = total">末页</a></li>
+            </ul>
+        
+        </div>
+
+        <div class="info" v-if="dialogShow">
+            <div class="return">
+                <a href="javascript:;" @click="dialogShow=false">
+                    <button class="returnButton">返回</button>
+                </a>
+            </div>
+            <table>
+            <tr>
+                <td>发布人Id：</td>
+                <td v-html="curData.userId"></td>
+            </tr>
+            <tr>
+                <td>标题：</td>
+                <td v-html="curData.title"></td>
+            </tr>
+            <tr>
+                <td>内容：</td>
+                <td v-html="curData.content"></td>
+            </tr>
+            <tr>
+                <td>分类：</td>
+                <td v-html="curData.classname"></td>
+            </tr>
+            <tr>
+                <td>状态：</td>
+                <td v-html="helpStatus(curData.status,0)"></td>
+            </tr>
+            <tr v-if="curData.imagesUrl!=''">
+                <td>图片：</td>
+                <td><img :src="'http://localhost:8080/'+curData.imagesUrl" height="50"  /></td>
+            </tr>
+            <tr>
+                <td>发布日期</td>
+                <td v-html="dataFormate(curData.releaseDate)"></td>
+            </tr>
+            <tr v-if="curData.status>0">
+                <td>接收人Id：</td>
+                <td v-html="curData.acceptUserId"></td>
+            </tr>
+             <tr v-if="curData.status>0">
+                <td>接收时间：</td>
+                <td v-html="dataFormate(curData.acceptDate)"></td>
+            </tr>
+           <tr v-if="curData.status>1">
+                <td>完成时间：</td>
+                <td v-html="dataFormate(curData.completeDate)"></td>
+            </tr>
+            <tr v-if="curData.status>2">
+                <td>付款时间：</td>
+                <td v-html="dataFormate(curData.payDate)"></td>
+            </tr>
+                
+            </table>
+   
+        </div>
+    </div>
+
+<script src="./js/lib/vue.js"></script>
+<script src="./js/lib/axios.min.js"></script>
+<script src="./js/config.js"></script>
+<script src="./js/show_help.js"></script>
+</body>
+</html>
